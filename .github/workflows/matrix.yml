@@ -1,0 +1,24 @@
+name: Setup (matrix)
+
+on:
+  push:
+
+jobs:
+  setup:
+    strategy:
+      matrix:
+        triplet:
+          - x86_64-unknown-linux-gnu
+          - aarch64-unknown-linux-gnu
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run actions-rust-lang/setup-rust-toolchain ${{matrix.triplet}}
+        uses: ./
+        with:
+          target: ${{matrix.triplet}}
+          cache-workspaces: |-
+            ./test-workspace
